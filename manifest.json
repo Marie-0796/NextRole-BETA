@@ -2,7 +2,7 @@
   "name": "NextRole",
   "short_name": "NextRole",
   "description": "Track your job applications, interviews, and offers",
-  "start_url": "/index.html",
+  "start_url": "/NextRole-BETA/index.html",
   "display": "standalone",
   "background_color": "#f1efe8",
   "theme_color": "#378ADD",
@@ -15,7 +15,7 @@
       "purpose": "any maskable"
     },
     {
-      "src": "icon-512.png",
+      "src": "icon-192.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
