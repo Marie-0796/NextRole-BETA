@@ -784,7 +784,7 @@
         </div>
  
         <div class="notifications-section">
-            <h2 class="notifications-title">Application pipeline</h2>
+            <h2 class="notifications-title">Application Overview</h2>
             <div class="notification-settings">
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px;">
                     <div style="border-left: 3px solid #378ADD; padding-left: 12px;">
@@ -852,26 +852,39 @@
                 </div>
  
                 <div class="form-group">
-                    <label class="form-label" for="salaryCurrency">Salary currency</label>
-                    <select id="salaryCurrency" class="form-input">
-                        <option value="USD">$ USD (US Dollar)</option>
-                        <option value="EUR">€ EUR (Euro)</option>
-                        <option value="GBP">£ GBP (British Pound)</option>
-                        <option value="CAD">C$ CAD (Canadian Dollar)</option>
-                        <option value="AUD">A$ AUD (Australian Dollar)</option>
-                        <option value="JPY">¥ JPY (Japanese Yen)</option>
-                        <option value="CHF">CHF (Swiss Franc)</option>
-                        <option value="CNY">¥ CNY (Chinese Yuan)</option>
-                        <option value="INR">₹ INR (Indian Rupee)</option>
-                        <option value="ZAR">R ZAR (South African Rand)</option>
-                        <option value="NZD">NZ$ NZD (New Zealand Dollar)</option>
-                        <option value="SGD">S$ SGD (Singapore Dollar)</option>
-                    </select>
+                    <label class="form-label">Salary details</label>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 8px;">
+                        <div>
+                            <label class="form-label" for="salaryCurrency" style="font-size: 11px; margin-bottom: 4px;">Currency</label>
+                            <select id="salaryCurrency" class="form-input">
+                                <option value="USD">$ USD</option>
+                                <option value="EUR">€ EUR</option>
+                                <option value="GBP">£ GBP</option>
+                                <option value="CAD">C$ CAD</option>
+                                <option value="AUD">A$ AUD</option>
+                                <option value="JPY">¥ JPY</option>
+                                <option value="CHF">CHF</option>
+                                <option value="CNY">¥ CNY</option>
+                                <option value="INR">₹ INR</option>
+                                <option value="ZAR">R ZAR</option>
+                                <option value="NZD">NZ$ NZD</option>
+                                <option value="SGD">S$ SGD</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="form-label" for="salaryPeriod" style="font-size: 11px; margin-bottom: 4px;">Period</label>
+                            <select id="salaryPeriod" class="form-input">
+                                <option value="yearly">Per year</option>
+                                <option value="monthly">Per month</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
  
                 <div class="form-group">
                     <label class="form-label" for="salary">Salary range</label>
-                    <input type="text" id="salary" class="form-input" placeholder="e.g., 120,000 - 150,000">
+                    <input type="text" id="salary" class="form-input" placeholder="e.g., 40,000 - 45,000">
+                    <p style="font-size: 11px; color: var(--color-text-tertiary); margin-top: 4px;">Enter numbers only, currency symbol will be added automatically</p>
                 </div>
  
                 <div class="form-group">
@@ -941,11 +954,11 @@
                     <select id="themeSelector" class="form-input">
                         <option value="light">Light</option>
                         <option value="dark">Dark</option>
-                        <option value="rose">Rose pink</option>
-                        <option value="steel">Blue steel</option>
-                        <option value="sage">Sage green</option>
-                        <option value="beige">Soft beige</option>
-                        <option value="umber">Raw umber</option>
+                        <option value="rose">Rose Pink</option>
+                        <option value="steel">Blue Steel</option>
+                        <option value="sage">Sage Green</option>
+                        <option value="beige">Soft Beige</option>
+                        <option value="umber">Raw Umber</option>
                     </select>
                 </div>
             </div>
@@ -963,7 +976,7 @@
                 <div class="setting-item">
                     <div class="setting-info">
                         <h4>Enable app passcode</h4>
-                        <p>Require a PIN to unlock the app</p>
+                        <p>Require a PIN to unlock app</p>
                     </div>
                     <input type="checkbox" id="enablePasscode">
                 </div>
@@ -1456,7 +1469,8 @@
                     'NZD': 'NZ$', 'SGD': 'S$'
                 };
                 const currencySymbol = currencySymbols[app.salaryCurrency] || '$';
-                const salaryDisplay = app.salary ? `${currencySymbol}${app.salary}` : '';
+                const periodLabel = app.salaryPeriod === 'monthly' ? '/month' : '/year';
+                const salaryDisplay = app.salary ? `${currencySymbol}${app.salary} ${periodLabel}` : '';
  
                 // File indicators
                 const hasFiles = app.cv || app.coverLetter || (app.otherDocs && app.otherDocs.length > 0);
@@ -1697,6 +1711,7 @@
             document.getElementById('locationType').value = app.locationType;
             document.getElementById('location').value = app.location || '';
             document.getElementById('salaryCurrency').value = app.salaryCurrency || 'USD';
+            document.getElementById('salaryPeriod').value = app.salaryPeriod || 'yearly';
             document.getElementById('salary').value = app.salary || '';
             document.getElementById('deadline').value = app.deadline || '';
             document.getElementById('appliedDate').value = app.appliedDate;
@@ -1706,6 +1721,7 @@
             // Clear file inputs (can't populate file inputs for security reasons)
             document.getElementById('cvUpload').value = '';
             document.getElementById('coverLetterUpload').value = '';
+            document.getElementById('otherDocsUpload').value = '';
  
             document.getElementById('applicationModal').classList.add('active');
         };
@@ -1749,6 +1765,7 @@
                     locationType: document.getElementById('locationType').value,
                     location: document.getElementById('location').value,
                     salaryCurrency: document.getElementById('salaryCurrency').value,
+                    salaryPeriod: document.getElementById('salaryPeriod').value,
                     salary: document.getElementById('salary').value,
                     deadline: document.getElementById('deadline').value,
                     appliedDate: document.getElementById('appliedDate').value,
