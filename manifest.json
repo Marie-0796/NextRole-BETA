@@ -1,6 +1,6 @@
 {
-  "name": "NextRole",
-  "short_name": "NextRole",
+  "name": "Application Tracker",
+  "short_name": "Application Tracker",
   "description": "Track your job applications, interviews, and offers",
   "start_url": "/NextRole-BETA/index.html",
   "display": "standalone",
